@@ -2,7 +2,7 @@ package com.crowd.entity;
 
 import java.util.Date;
 
-public class admin {
+public class Admin {
     private Integer id;
 
     private String loginAcct;
@@ -15,10 +15,10 @@ public class admin {
 
     private Date createTime;
 
-    public admin() {
+    public Admin() {
     }
 
-    public admin(Integer id, String loginAcct, String userPswd, String userName, String email, Date createTime) {
+    public Admin(Integer id, String loginAcct, String userPswd, String userName, String email, Date createTime) {
         this.id = id;
         this.loginAcct = loginAcct;
         this.userPswd = userPswd;

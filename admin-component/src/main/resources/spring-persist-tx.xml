@@ -5,26 +5,19 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd
-        http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx.xsd">
-    <context:component-scan base-package="com.crowd.service"/>
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+         http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <context:component-scan base-package="com.crowd.service"/>
     <!-- 配置事务管理器 -->
     <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <!-- 装配数据源 -->
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    <aop:config>
-        <!--切入点-->
-        <aop:pointcut id="txPointCut" expression="execution(* *..*ServiceImpl.*(..))"/>
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
-    </aop:config>
-
     <!-- 配置事务通知 -->
     <!-- id 属性用于在 aop:advisor 中引用事务通知 -->
     <!-- transaction-manager 属性用于引用事务管理器， 如果事务管理器的 bean 的 id 正好是transactionManager， 可以省略这个属性 -->
@@ -57,5 +50,11 @@
 
         </tx:attributes>
     </tx:advice>
+
+    <aop:config>
+        <!--切入点-->
+        <aop:pointcut id="txPointCut" expression="execution(* *..*ServiceImpl.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+    </aop:config>
 
 </beans>

@@ -27,7 +27,7 @@ https://www.springframework.org/schema/context/spring-context.xsd">
 </bean>
 
 <!-- 配置 MapperScannerConfigurer -->
-<bean id="MapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
     <property name="sqlSessionFactoryBeanName" value="sqlSession"/>
     <property name="basePackage" value="com.crowd.dao"/>
 </bean>
