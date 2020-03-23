@@ -24,6 +24,22 @@ https://www.springframework.org/schema/context/spring-context.xsd">
     <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
     <!--指定mapper所在的路径-->
     <property name="mapperLocations" value="classpath:mybatis/mapper/*Mapper.xml"/>
+    <!--配置pageHelper插件-->
+    <property name="plugins">
+        <array>
+            <bean class="com.github.pagehelper.PageHelper">
+                <property name="properties">
+                    <props>
+                        <!--配置数据酷方言-->
+                        <prop key="dialect">mysql</prop>
+                        <!--配置页码的合理化修正-->
+                        <prop key="reasonable">true</prop>
+                    </props>
+                </property>
+            </bean>
+        </array>
+    </property>
+
 </bean>
 
 <!-- 配置 MapperScannerConfigurer -->
@@ -31,4 +47,6 @@ https://www.springframework.org/schema/context/spring-context.xsd">
     <property name="sqlSessionFactoryBeanName" value="sqlSession"/>
     <property name="basePackage" value="com.crowd.dao"/>
 </bean>
+
+    
 </beans>

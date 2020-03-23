@@ -12,6 +12,6 @@
 </head>
 <body>
 出错啦！！！
-${requestScope.exceptionInfo}
+${exceptionInfo}
 </body>
 </html>

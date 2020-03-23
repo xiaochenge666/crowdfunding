@@ -12,4 +12,6 @@ public interface AdminMapper {
     List<Admin> queryAll();
 
     Admin findUserByName(String loginacount);
+
+    List<Admin> selectAdminListByKeyWord(String keyword);
 }

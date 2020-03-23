@@ -22,6 +22,27 @@
     <!--开启包扫描-->
     <context:component-scan base-package="com.crowd.mvc"/>
     <!--避免写一个空的controller-->
-    <mvc:view-controller path="/toLogin.html" view-name="admin-login"/>
+    <mvc:view-controller path="/admin/toLogin.html" view-name="admin-login"/>
+    <mvc:view-controller path="/admin/toMain.html" view-name="admin-main"/>
+    
+    
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/admin/toLogin.html"/>
+            <mvc:exclude-mapping path="/admin/logout.html"/>
+            <mvc:exclude-mapping path="/admin/doLogin.html"/>
+            <bean class="com.crowd.mvc.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
+    <!--配置异常-->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="com.crowd.exception.AccessForbiddenException">admin-login</prop>
+            </props>
+        </property>
+    </bean>
 </beans>

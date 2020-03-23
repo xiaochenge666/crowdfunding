@@ -67,5 +67,14 @@
   <select id="findUserByName" resultMap="BaseResultMap">
     select * from t_admin where project_crowd.t_admin.login_acct = #{loginacount}
   </select>
+    
+  <select id="selectAdminListByKeyWord" resultMap="BaseResultMap">
+        select * from t_admin
+        where
+              login_acct like CONCAT("%",#{keyword},"%") or
+              user_name like CONCAT("%",#{keyword},"%") or
+              email like CONCAT("%",#{keyword},"%")
+  </select>
+    
 
 </mapper>

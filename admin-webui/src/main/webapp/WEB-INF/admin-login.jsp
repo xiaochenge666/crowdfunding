@@ -34,9 +34,9 @@
 
 <div class="container">
 
-    <form class="form-signin" role="form" method="post">
+    <form class="form-signin"  method="post" action="admin/doLogin.html">
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 管理员登录</h2>
-        <p>${requestScope.exception.message}</p>
+        <p style="color: red">${requestScope.exceptionInfo}</p>
         <div class="form-group has-success has-feedback">
             <input type="text" class="form-control" id="inputSuccess4" name="username" placeholder="请输入登录账号" autofocus>
             <span class="glyphicon glyphicon-user form-control-feedback"></span>

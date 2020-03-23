@@ -1,10 +1,15 @@
 package com.crowd.service.Impl;
 
+import com.crowd.constant.CrowdConstant;
 import com.crowd.dao.AdminMapper;
 import com.crowd.entity.Admin;
 import com.crowd.exception.LoginFailedException;
 import com.crowd.service.api.AdminService;
 import com.crowd.utils.CrowdUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -13,6 +18,9 @@ import java.util.List;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+
+    Logger logger=LoggerFactory.getLogger(this.getClass());
+
     @Resource
     AdminMapper adminMapper;
 
@@ -36,10 +44,13 @@ public class AdminServiceImpl implements AdminService {
 
     public Admin getAdminByLoginAcct(String loginacount, String pwd) {
         // 1.查用户
+        logger.info("开始判断用户是否存在！");
         Admin admin=adminMapper.findUserByName(loginacount);
         // 2.判断有无，无抛异常
+        logger.info("adminName:"+admin);
         if(admin==null){
-            throw new LoginFailedException("该用户不存在");
+            logger.info("用户不存在！");
+            throw new LoginFailedException(CrowdConstant.LOGIN_FAIL);
         }
         // 3.取出密码
         String pwdDatabase = admin.getUserPswd();
@@ -51,7 +62,17 @@ public class AdminServiceImpl implements AdminService {
             return admin;
         }
         //6.不一样抛异常，一样返回admin
-        throw new LoginFailedException();
+        throw new LoginFailedException(CrowdConstant.LOGIN_FAIL);
+    }
+
+    public PageInfo<Admin> getPageInfo(String keyword, int pageNo, int pageSize) {
+        //开启分页插件的功能
+        PageHelper.startPage(pageNo,pageSize);
+        //查询数据
+        List<Admin> adminsList=adminMapper.selectAdminListByKeyWord(keyword);
+        //将adminList封装为PageInfo对象
+        PageInfo<Admin> pf = new PageInfo<Admin>(adminsList);
+        return pf;
     }
 
 }
