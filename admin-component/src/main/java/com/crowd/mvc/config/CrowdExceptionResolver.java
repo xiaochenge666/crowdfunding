@@ -1,7 +1,9 @@
 package com.crowd.mvc.config;
 
 import com.crowd.exception.AccessForbiddenException;
+import com.crowd.exception.AddAdminException;
 import com.crowd.exception.LoginFailedException;
+import com.crowd.exception.UserHasExistedException;
 import com.crowd.utils.CrowdUtils;
 import com.crowd.utils.ResponseEntity;
 import com.google.gson.Gson;
@@ -53,15 +55,6 @@ public class CrowdExceptionResolver {
 
 
     //下边为各种异常的处理方法
-    @ExceptionHandler(value = NullPointerException.class)
-    public ModelAndView handelNullPointException(Exception e,
-                                                 HttpServletRequest request,
-                                                 HttpServletResponse response
-                                                 ) throws IOException {
-        String viewName="error";
-        return this.resolveCommonException(e,request,response,viewName);
-    }
-
     @ExceptionHandler(value = LoginFailedException.class)
     public ModelAndView loginFailed(Exception e,
                                     HttpServletRequest request,
@@ -75,6 +68,23 @@ public class CrowdExceptionResolver {
                                     HttpServletRequest request,
                                     HttpServletResponse response) throws IOException {
         String viewName="admin-login";
+        return this.resolveCommonException(e,request,response,viewName);
+    }
+
+    @ExceptionHandler(value = UserHasExistedException.class)
+    public ModelAndView handelUserExistException(Exception e,
+                                                       HttpServletRequest request,
+                                                       HttpServletResponse response) throws IOException {
+        String viewName="admin-add";
+        return this.resolveCommonException(e,request,response,viewName);
+    }
+
+    //统一服务器错误页面
+    @ExceptionHandler(value = {AddAdminException.class,RuntimeException.class,NullPointerException.class})
+    public ModelAndView handel500Error(Exception e,
+                                       HttpServletRequest request,
+                                       HttpServletResponse response) throws IOException {
+        String viewName="error";
         return this.resolveCommonException(e,request,response,viewName);
     }
 

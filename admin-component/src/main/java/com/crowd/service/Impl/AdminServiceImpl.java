@@ -3,11 +3,14 @@ package com.crowd.service.Impl;
 import com.crowd.constant.CrowdConstant;
 import com.crowd.dao.AdminMapper;
 import com.crowd.entity.Admin;
+import com.crowd.exception.AddAdminException;
 import com.crowd.exception.LoginFailedException;
+import com.crowd.exception.UserHasExistedException;
 import com.crowd.service.api.AdminService;
 import com.crowd.utils.CrowdUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import javafx.scene.chart.PieChart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -42,10 +45,10 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.queryAll();
     }
 
-    public Admin getAdminByLoginAcct(String loginacount, String pwd) {
+    public Admin getAdminByLoginAcct(String loginCount, String pwd) {
         // 1.查用户
         logger.info("开始判断用户是否存在！");
-        Admin admin=adminMapper.findUserByName(loginacount);
+        Admin admin=adminMapper.findUserByName(loginCount);
         // 2.判断有无，无抛异常
         logger.info("adminName:"+admin);
         if(admin==null){
@@ -71,8 +74,8 @@ public class AdminServiceImpl implements AdminService {
         //查询数据
         List<Admin> adminsList=adminMapper.selectAdminListByKeyWord(keyword);
         //将adminList封装为PageInfo对象
-        PageInfo<Admin> pf = new PageInfo<Admin>(adminsList);
-        return pf;
+        PageInfo<Admin> pinfo = new PageInfo<Admin>(adminsList);
+        return pinfo;
     }
 
     public int deleteAdmin(int id) {
@@ -82,7 +85,51 @@ public class AdminServiceImpl implements AdminService {
             return 1;
         }
         //抛异常
-        return 0;
+        throw new RuntimeException("删除失败！");
+    }
+
+    public void addAdmin(Admin admin) {
+        //获取用户名是否重复
+        if(admin==null){
+            //抛异常
+            throw new NullPointerException("用户信息空指针");
+        }
+        Admin res = adminMapper.findUserByName(admin.getLoginAcct());
+        if (res!=null){
+            //抛异常，该用户已存在
+            throw new UserHasExistedException("当前用户名已存在！请重试！");
+        }
+        //使用MD5对密码进行加密
+        String pwd = admin.getUserPswd();
+        String pwdMd5 = CrowdUtils.md5(pwd);
+        admin.setUserPswd(pwdMd5);
+        admin.setCreateTime(new Date());
+        //存入数据库中
+        int insertRes = adminMapper.insert(admin);
+        //返回结果
+        if (insertRes<=0){
+            //抛异常
+            throw new AddAdminException("添加失败");
+        }
+    }
+
+    public Admin queryAdmin(String logincount) {
+
+        Admin admin=adminMapper.findUserByName(logincount);
+        if(admin==null){
+            throw new RuntimeException("编辑失败，服务器异常");
+        }
+        return admin;
+    }
+
+    public void updateAdmin(Admin admin) {
+        //异常处理
+        if(admin==null){
+            throw new RuntimeException("编辑失败，服务器异常");
+        }
+        //更新
+        adminMapper.updateAdmin(admin);
+
     }
 
 }

@@ -64,6 +64,7 @@
 									<th>账号</th>
 									<th>名称</th>
 									<th>邮箱地址</th>
+									<th>创建时间</th>
 									<th width="100">操作</th>
 								</tr>
 								</thead>
@@ -81,6 +82,7 @@
 											<td>${admin.loginAcct}</td>
 											<td>${admin.userName}</td>
 											<td>${admin.email}</td>
+											<td>${admin.createTime}</td>
 											<td>
 												<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
 												<button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>

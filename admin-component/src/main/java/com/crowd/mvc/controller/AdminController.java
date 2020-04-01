@@ -65,6 +65,26 @@ public class AdminController {
         return "redirect:/admin/do/page.html?pageNo="+pageNo+"&keyword="+keyword;
     }
 
+    @RequestMapping("do/add")
+    public String addAdmin(Admin admin,Model model){
+        adminservice.addAdmin(admin);
+        return "redirect:/admin/do/page.html";
+    }
+
+    @RequestMapping("go/edit")
+    public String goEditAdminPage(String  logincount,Model model){
+        Admin admin = adminservice.queryAdmin(logincount);
+        model.addAttribute("currAdmin",admin);
+        return null;
+    }
+
+    @RequestMapping("do/edit")
+    public String editAdmin(Admin admin){
+        //
+        adminservice.updateAdmin(admin);
+        return null;
+    }
+
 
 
 }

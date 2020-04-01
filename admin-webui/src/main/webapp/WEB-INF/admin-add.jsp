@@ -45,25 +45,26 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">表单数据<div style="float:right;cursor:pointer;" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-question-sign"></i></div></div>
 					<div class="panel-body">
-						<form role="form">
+						<form role="form" method="post" action="admin/do/add.html">
 							<div class="form-group">
 								<label for="exampleInputPassword1">登陆账号</label>
-								<input type="text" class="form-control" id="" placeholder="请输入登陆账号">
+                                <div style="color: red">${requestScope.exceptionInfo}</div>
+								<input type="text" class="form-control" id="" placeholder="请输入登陆账号" name="loginAcct">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputPassword1">登陆密码</label>
-								<input type="text" class="form-control" id="exampleInputPassword1" placeholder="请输入密码">
+								<input type="text" class="form-control" id="exampleInputPassword1" placeholder="请输入密码" name="userPswd">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputPassword1">用户名称</label>
-								<input type="text" class="form-control" id="exampleInputPassword2" placeholder="请输入用户密码">
+								<input type="text" class="form-control" id="exampleInputPassword2" placeholder="请输入用户密码" name="userName">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">邮箱地址</label>
-								<input type="email" class="form-control" id="exampleInputEmail1" placeholder="请输入邮箱地址">
+								<input type="email" class="form-control" id="exampleInputEmail1" placeholder="请输入邮箱地址" name="email">
 								<p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>
 							</div>
-							<button type="button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+							<button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 							<button type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
 						</form>
 					</div>
@@ -75,28 +76,6 @@
 <%--引用js--%>
 <%@include file="admin-mian-js-include.jsp"%>
 <script type="text/javascript">
-    $(function () {
-       initPagination();
-    });
-    function initPagination() {
-        let totalRecord=${requestScope.pageInfo.total};
-		let properties={
-			num_edge_entries: 3, // 边缘页数
-			num_display_entries: 5, // 主体页数
-			callback: pageSelectCallback, // 用户点击“ 翻页” 按钮之后执行翻页操作的回调函数
-			current_page: ${requestScope.pageInfo.pageNum-1}, // 当前页， pageNum 从 1 开始，必须-1 后才可以赋值
-			prev_text: "上一页",
-			next_text: "下一页",
-			items_per_page:${requestScope.pageInfo.pageSize} // 每页显示 5 项
-		};
-		$("#pagination").pagination(totalRecord,properties);
-		function pageSelectCallback(current_page,jq) {
-			let curr_page=current_page+1;
-			window.location.href="admin/do/page.html?pageNo="+curr_page+"&keyword=${param.keyword}";
-			return false
-		}
-    }
-    
 </script>
 
 </body>

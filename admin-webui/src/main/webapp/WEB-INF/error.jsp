@@ -11,7 +11,10 @@
     <title>Title</title>
 </head>
 <body>
-出错啦！！！
-${exceptionInfo}
+<h3>
+    服务器出错啦!
+</h3>
+<h5>错误详情：</h5>
+<p>${requestScope.exceptionInfo}</p>
 </body>
 </html>

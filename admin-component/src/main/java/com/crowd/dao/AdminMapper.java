@@ -16,4 +16,7 @@ public interface AdminMapper {
     List<Admin> selectAdminListByKeyWord(String keyword);
 
     int deleteUser(int id);
+
+
+    void updateAdmin(Admin admin);
 }

@@ -78,4 +78,14 @@
   <delete id="deleteUser">
     delete from t_admin where id=#{id}
   </delete>
+
+  <update id="updateAdmin" parameterType="Admin">
+    update t_admin
+    set
+        t_admin.user_pswd=#{admin.userPswd},
+        t_admin.user_name=#{admin.userName},
+        t_admin.email=#{admin.email}
+    where
+          login_acct=#{admin.loginAcct}
+  </update>
 </mapper>
