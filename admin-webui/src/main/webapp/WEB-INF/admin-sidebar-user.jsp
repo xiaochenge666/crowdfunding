@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/pagination.css">
 	<style>
 		.tree li {
 			list-style-type: none;
@@ -35,24 +36,23 @@
 <div class="container-fluid">
 	<div class="row">
 		<%@include file="admin-mian-sidebar-include.jsp"%>
-		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title"><i class="glyphicon glyphicon-th"></i> 数据列表</h3>
 					</div>
 					<div class="panel-body">
-						<form class="form-inline" role="form" style="float:left;">
+						<form action="admin/do/page.html" class="form-inline" role="form" style="float:left;" method="post">
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<div class="input-group-addon">查询条件</div>
-									<input class="form-control has-success" type="text" placeholder="请输入查询条件">
+									<input name="keyword" class="form-control has-success" type="text" placeholder="请输入查询条件">
 								</div>
 							</div>
-							<button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+							<button type="submit" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
 						</form>
 						<button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
-						<button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='add.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+						<button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='admin/toAdd.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 						<br>
 						<hr style="clear:both;">
 						<div class="table-responsive">
@@ -84,7 +84,7 @@
 											<td>
 												<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
 												<button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-												<button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
+												<a href="admin/do/remove/${admin.id}/${requestScope.pageInfo.pageNum}/${param.keyword}.html" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></a>
 											</td>
 										</tr>
 									</c:forEach>
@@ -93,15 +93,7 @@
 								<tfoot>
 								<tr >
 									<td colspan="6" align="center">
-										<ul class="pagination">
-											<li class="disabled"><a href="#">上一页</a></li>
-											<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-											<li><a href="#">2</a></li>
-											<li><a href="#">3</a></li>
-											<li><a href="#">4</a></li>
-											<li><a href="#">5</a></li>
-											<li><a href="#">下一页</a></li>
-										</ul>
+										<ul id="pagination"></ul>
 									</td>
 								</tr>
 
@@ -112,10 +104,34 @@
 				</div>
 			</div>
 		</div>
-		</div>
 	</div>
 </div>
 <%--引用js--%>
 <%@include file="admin-mian-js-include.jsp"%>
+<script type="text/javascript">
+    $(function () {
+       initPagination();
+    });
+    function initPagination() {
+        let totalRecord=${requestScope.pageInfo.total};
+		let properties={
+			num_edge_entries: 3, // 边缘页数
+			num_display_entries: 5, // 主体页数
+			callback: pageSelectCallback, // 用户点击“ 翻页” 按钮之后执行翻页操作的回调函数
+			current_page: ${requestScope.pageInfo.pageNum-1}, // 当前页， pageNum 从 1 开始，必须-1 后才可以赋值
+			prev_text: "上一页",
+			next_text: "下一页",
+			items_per_page:${requestScope.pageInfo.pageSize} // 每页显示 5 项
+		};
+		$("#pagination").pagination(totalRecord,properties);
+		function pageSelectCallback(current_page,jq) {
+			let curr_page=current_page+1;
+			window.location.href="admin/do/page.html?pageNo="+curr_page+"&keyword=${param.keyword}";
+			return false
+		}
+    }
+    
+</script>
+
 </body>
 </html>

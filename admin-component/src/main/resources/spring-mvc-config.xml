@@ -24,6 +24,7 @@
     <!--避免写一个空的controller-->
     <mvc:view-controller path="/admin/toLogin.html" view-name="admin-login"/>
     <mvc:view-controller path="/admin/toMain.html" view-name="admin-main"/>
+    <mvc:view-controller path="/admin/toAdd.html" view-name="admin-add"/>
     
     
     <!--配置拦截器-->

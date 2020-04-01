@@ -23,3 +23,4 @@
         });
     });
 </script>
+<script type="text/javascript" src="jquery/jquery.pagination.js"></script>

@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -55,12 +57,13 @@ public class AdminController {
         return "admin-sidebar-user";
     }
 
-
-
-
-
-
-
+    @RequestMapping("/do/remove/{id}/{pageNo}/{keyword}.html")
+    public String remove(@PathVariable("id") int id,
+                              @PathVariable("pageNo") int pageNo,
+                              @PathVariable("keyword") String keyword) {
+        adminservice.deleteAdmin(id);
+        return "redirect:/admin/do/page.html?pageNo="+pageNo+"&keyword="+keyword;
+    }
 
 
 

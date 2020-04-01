@@ -75,4 +75,14 @@ public class AdminServiceImpl implements AdminService {
         return pf;
     }
 
+    public int deleteAdmin(int id) {
+
+        int res = adminMapper.deleteUser(id);
+        if(res>0){
+            return 1;
+        }
+        //抛异常
+        return 0;
+    }
+
 }

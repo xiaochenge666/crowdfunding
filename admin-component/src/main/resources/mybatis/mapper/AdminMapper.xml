@@ -75,6 +75,7 @@
               user_name like CONCAT("%",#{keyword},"%") or
               email like CONCAT("%",#{keyword},"%")
   </select>
-    
-
+  <delete id="deleteUser">
+    delete from t_admin where id=#{id}
+  </delete>
 </mapper>

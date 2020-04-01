@@ -14,4 +14,6 @@ public interface AdminMapper {
     Admin findUserByName(String loginacount);
 
     List<Admin> selectAdminListByKeyWord(String keyword);
+
+    int deleteUser(int id);
 }
