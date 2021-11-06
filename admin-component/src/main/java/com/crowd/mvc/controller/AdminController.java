@@ -7,11 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -25,6 +24,9 @@ public class AdminController {
 
     @Resource
     AdminService adminservice;
+
+
+
 
     @RequestMapping("/doLogin")
     public String doLogin(@RequestParam("username") String name,
@@ -66,7 +68,7 @@ public class AdminController {
     }
 
     @RequestMapping("do/add")
-    public String addAdmin(Admin admin,Model model){
+    public String addAdmin(Admin admin){
         adminservice.addAdmin(admin);
         return "redirect:/admin/do/page.html";
     }

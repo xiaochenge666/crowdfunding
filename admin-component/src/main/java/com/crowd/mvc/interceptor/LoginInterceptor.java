@@ -12,13 +12,13 @@ import javax.servlet.http.HttpSession;
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response , Object handler) throws Exception {
+
         HttpSession httpSession=request.getSession();
         Admin user = (Admin) httpSession.getAttribute(CrowdConstant.ATTR_NAME_LOGIN_ADMIN);
         if(user==null){
             throw new AccessForbiddenException(CrowdConstant.MESSAGE_NOACCESSPERMISION);
         }
-
         return true;
     }
 }

@@ -1,6 +1,8 @@
 package com.crowd.dao;
 
 import com.crowd.entity.Admin;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
