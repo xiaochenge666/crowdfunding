@@ -88,7 +88,7 @@ public class SpringConfig implements ApplicationContextAware {
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSession");
         return mapperScannerConfigurer;
     }
-
+    @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext= (WebApplicationContext) applicationContext;
     }
