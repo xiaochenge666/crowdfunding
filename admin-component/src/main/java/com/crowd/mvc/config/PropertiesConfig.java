@@ -21,6 +21,7 @@ public class PropertiesConfig {
     @Value("${jdbc.url}")
     private String url;
     @Value("${mybatis.mybatisTypeAliasPackage}")
+
     private String mybatisTypeAliasPackage;
     @Value("${mybatis.mapperLocations}")
     private String mapperLocations;

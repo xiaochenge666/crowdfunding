@@ -4,8 +4,9 @@ package com.crowd.mvc.config;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
 import javax.servlet.Filter;
+
+
 
 public class WebInit extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -43,4 +44,5 @@ public class WebInit extends AbstractAnnotationConfigDispatcherServletInitialize
         HiddenHttpMethodFilter hiddenHttpMethodFilter = new HiddenHttpMethodFilter();
         return new Filter[]{characterEncodingFilter,hiddenHttpMethodFilter};
     }
+
 }
