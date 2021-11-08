@@ -32,7 +32,7 @@
 th:action="@{admin/doLogin}"//访问时：	http://localhost:8849/webui_war_exploded/admin/admin/doLogin
 <!--正常访问-->
 th:action="@{/admin/doLogin}"//访问时真实路径：http://localhost:8849/webui_war_exploded/admin/doLogin
-
+````
 ###问题3：
-thymeleaf碎片的使用
+thymeleaf碎片的使用````
 
