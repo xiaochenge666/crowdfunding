@@ -1,13 +1,18 @@
 package com.crowd.utils;
 
 import com.crowd.constant.CrowdConstant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+
 public class CrowdUtils {
+    private static Logger logger= LoggerFactory.getLogger(CrowdUtils.class);
+
     /**
      * 判断请求方法的类型是ajax还是其他请求
      * @param request 请求的request对象
@@ -17,6 +22,12 @@ public class CrowdUtils {
         // 1.获取请求消息头信息
         String acceptInformation = request.getHeader("Accept");
         String xRequestInformation = request.getHeader("X-Requested-With");
+
+        logger.info("开始获取请求属性[acceptInformation]和[xRequestInformation],用于判断请求是否是一个ajax请求！");
+
+        logger.info("[acceptInformation]:"+acceptInformation);
+        logger.info("[xRequestInformation]:"+xRequestInformation);
+
        // 返回最终判断
         return ((acceptInformation!=null&&acceptInformation.contains("application/json"))||(xRequestInformation!=null&&xRequestInformation.equals("XMLHttpRequest")));
         }

@@ -4,6 +4,7 @@ import com.crowd.entity.Admin;
 
 import java.util.List;
 
+
 public interface AdminMapper {
     int insert(Admin record);
 

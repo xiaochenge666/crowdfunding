@@ -13,15 +13,18 @@ import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
+
 @Service
+@Transactional(transactionManager = "transactionManager")
 public class AdminServiceImpl implements AdminService {
 
-    Logger logger=LoggerFactory.getLogger(this.getClass());
+    private Logger logger=LoggerFactory.getLogger(this.getClass());
 
     @Resource
     AdminMapper adminMapper;
@@ -87,6 +90,7 @@ public class AdminServiceImpl implements AdminService {
         throw new RuntimeException("删除失败！");
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void addAdmin(Admin admin) {
         //获取用户名是否重复
         if(admin==null){
@@ -128,7 +132,6 @@ public class AdminServiceImpl implements AdminService {
         }
         //更新
         adminMapper.updateAdmin(admin);
-
     }
 
 }

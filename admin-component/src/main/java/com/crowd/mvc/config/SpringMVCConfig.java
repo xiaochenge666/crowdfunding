@@ -1,36 +1,32 @@
 package com.crowd.mvc.config;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.crowd.mvc.interceptor.LoginInterceptor;
-import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
-
-
-
-import javax.sql.DataSource;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import org.thymeleaf.templatemode.TemplateMode;
 import java.util.List;
 import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({"com.crowd.mvc.controller","com.crowd.service"})
-public class SpringMVCConfig implements WebMvcConfigurer {
+@ComponentScan({"com.crowd.mvc.controller"})
+public class SpringMVCConfig implements WebMvcConfigurer, ApplicationContextAware {
 
-    //配置数据源
-    @Bean("dataSource")
-    public DataSource getDataSource(@Param("propertiesConfig") PropertiesConfig propertiesConfig){
-        DruidDataSource druidDataSource = new DruidDataSource();//采用德鲁伊连接池
-        druidDataSource.setUsername(propertiesConfig.getUsername());
-        druidDataSource.setPassword(propertiesConfig.getPassword());
-        druidDataSource.setUrl(propertiesConfig.getUrl());
-        druidDataSource.setDriverClassName(propertiesConfig.getDriver());
-        return druidDataSource;
-    }
+    private ApplicationContext applicationContext;
+    private Logger logger= LoggerFactory.getLogger(this.getClass());
 
     //添加拦截器
     public void addInterceptors(InterceptorRegistry registry) {
@@ -49,6 +45,7 @@ public class SpringMVCConfig implements WebMvcConfigurer {
         configurer.enable();
     }
 
+    //直接映射到指定的视图页面（相当于controller只起转发作用，没有实际的业务逻辑）
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/admin/toLogin").setViewName("admin-login");
         registry.addViewController("/admin/toMain").setViewName("admin-main");
@@ -57,6 +54,7 @@ public class SpringMVCConfig implements WebMvcConfigurer {
         registry.addViewController("/hello").setViewName("hello");
     }
 
+
     // 配置异常
     public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
         SimpleMappingExceptionResolver simpleMappingExceptionResolver = new SimpleMappingExceptionResolver();
@@ -64,5 +62,40 @@ public class SpringMVCConfig implements WebMvcConfigurer {
         properties.setProperty("com.crowd.exception.AccessForbiddenException","admin-login");
         simpleMappingExceptionResolver.setExceptionMappings(properties);
         resolvers.add(simpleMappingExceptionResolver);
+    }
+
+
+
+    //配置视图解析器
+    @Bean
+    public ViewResolver viewResolver() {
+
+        /*
+         * 配置视图解析器
+         * */
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setCharacterEncoding("UTF-8");
+
+        //配置模板引擎
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+
+        //配置模板解析器
+        SpringResourceTemplateResolver templateResolver =new SpringResourceTemplateResolver();
+        templateResolver.setApplicationContext(this.applicationContext);
+        templateResolver.setPrefix("/WEB-INF/templates/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setCharacterEncoding("UTF-8");
+        templateResolver.setTemplateMode(TemplateMode.HTML);
+        //将模板解析器设置给模板引擎
+        templateEngine.setTemplateResolver(templateResolver);
+        //将模板引擎设置给视图解析器
+        viewResolver.setTemplateEngine(templateEngine);
+        return viewResolver;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        logger.info("设置了ApplicationContext!");
+        this.applicationContext = applicationContext;
     }
 }

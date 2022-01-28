@@ -25,6 +25,7 @@
     </build>
 
     <dependencies>
+        <!--项目模块依赖-->
         <dependency>
             <groupId>com.xiaochenge666</groupId>
             <artifactId>admin-entity</artifactId>
@@ -35,12 +36,14 @@
             <artifactId>common-utils</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+
         <!-- Spring 依赖 -->
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
-            <exclusions>
+            <exclusions><!--去掉spring默认的日志框架JCL-->
                 <exclusion>
                     <artifactId>commons-logging</artifactId>
                     <groupId>commons-logging</groupId>
@@ -131,15 +134,26 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
+
         <!--日志适配器（偷天换日神器，可模仿spring自带的commons-logging）-->
+        <!--spring使用的是JCL(也称Commons-Logging框架)-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
+
+
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf -->
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring5</artifactId>

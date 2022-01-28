@@ -9,7 +9,6 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="create_time" jdbcType="DATE" property="createTime" />
   </resultMap>
-  
   <insert id="insert" parameterType="com.crowd.entity.Admin">
     insert into t_admin (id, login_acct, user_pswd, 
       user_name, email, create_time
@@ -64,11 +63,9 @@
   <select id="queryAll" resultMap="BaseResultMap">
     select * from t_admin;
   </select>
-
   <select id="findUserByName" resultMap="BaseResultMap">
     select * from t_admin where project_crowd.t_admin.login_acct = #{loginacount}
   </select>
-    
   <select id="selectAdminListByKeyWord" resultMap="BaseResultMap">
         select * from t_admin
         where
@@ -79,7 +76,6 @@
   <delete id="deleteUser">
     delete from t_admin where id=#{id}
   </delete>
-
   <update id="updateAdmin" parameterType="Admin">
     update t_admin
     set

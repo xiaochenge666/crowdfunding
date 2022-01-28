@@ -29,6 +29,9 @@ public class ResponseEntity<T>{
         return new ResponseEntity<type>(FAILED,msg,null);
     }
 
+    public static <type> ResponseEntity<type> fail(String msg,type data){
+        return new ResponseEntity<type>(FAILED,msg,data);
+    }
     public String getOperationResult() {
         return operationResult;
     }

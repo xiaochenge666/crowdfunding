@@ -1,6 +1,5 @@
 package com.crowd.mvc.config;
 
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -14,15 +13,19 @@ public class PropertiesConfig {
 
     @Value("${jdbc.userId}")
     private String username;
+
     @Value("${jdbc.pwd}")
     private String password;
+
     @Value("${jdbc.driver}")
     private String driver;
+
     @Value("${jdbc.url}")
     private String url;
-    @Value("${mybatis.mybatisTypeAliasPackage}")
 
+    @Value("${mybatis.mybatisTypeAliasPackage}")
     private String mybatisTypeAliasPackage;
+
     @Value("${mybatis.mapperLocations}")
     private String mapperLocations;
 

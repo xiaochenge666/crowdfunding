@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -81,6 +79,7 @@ public class AdminController {
         adminservice.updateAdmin(admin);
         return null;
     }
+
 
 
 
