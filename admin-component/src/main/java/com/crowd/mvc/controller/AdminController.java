@@ -82,6 +82,7 @@ public class AdminController {
         return "admin-user-edit";
     }
 
+    //编辑
     @RequestMapping("do/edit")
     public String editAdmin(Admin admin,@RequestParam("pageNo") Integer pageNo,
                               @RequestParam("keyword") String keyword){

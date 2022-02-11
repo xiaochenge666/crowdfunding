@@ -18,7 +18,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         Admin user = (Admin) httpSession.getAttribute(CrowdConstant.ATTR_NAME_LOGIN_ADMIN);
         if(user==null){//如果为空说明未登录
             //抛出无权限访问异常
-            throw new AccessForbiddenException(CrowdConstant.MESSAGE_NOACCESSPERMISION);
+            throw new AccessForbiddenException(CrowdConstant.MESSAGE_NO_ACCESS_PERMISSION);
         }
         return true;
     }

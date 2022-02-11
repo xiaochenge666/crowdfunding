@@ -40,7 +40,7 @@ public class CrowdUtils {
     public static String md5(String source){
         // 判断source是否有效，避免空指针异常
         if(source == null||source.length() == 0){
-            throw new RuntimeException(CrowdConstant.MESSAGE_STRING_INVALIDATA);
+            throw new RuntimeException(CrowdConstant.MESSAGE_STRING_INVALIDATE);
         }
 
         // 获取MessageDigest对象
