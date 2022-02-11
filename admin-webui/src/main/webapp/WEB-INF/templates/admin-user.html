@@ -1,0 +1,141 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <div th:replace="~{fragments/head::style_head}"></div>
+	<link rel="stylesheet" th:href="@{/css/main.css}">
+	<style>
+	.tree li {
+        list-style-type: none;
+		cursor:pointer;
+	}
+	.tree-closed {
+	    height : 40px;
+	}
+	.tree-expanded {
+	    height : auto;
+	}
+	</style>
+  </head>
+
+  <body>
+
+  <!--页头标签-->
+    <div th:insert="~{fragments/admin-mian-navbar-include::admin-mian-navbar-include}"></div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <!--侧边栏碎片-->
+          <div th:insert="~{fragments/admin-mian-sidebar-include::admin-mian-sidebar-include}"></div>
+        <!--页面主体-->
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class="glyphicon glyphicon-th"></i> 数据列表</h3>
+            </div>
+            <div class="panel-body">
+              <!--关键字查询表单-->
+              <form class="form-inline" role="form" style="float:left;" th:action="@{/admin/do/page}" method="post">
+                <div class="form-group has-feedback">
+                  <div class="input-group">
+                    <div class="input-group-addon">查询条件</div>
+                    <input class="form-control has-success" type="text" name="keyword" th:value="${keyword}" placeholder="请输入查询条件">
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+              </form>
+
+              <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+              <a class="btn btn-primary" style="float:right;" th:href="@{/go/admin/add}"><i class="glyphicon glyphicon-plus"></i> 新增</a>
+              <br>
+              <hr style="clear:both;">
+              <!--表格-->
+              <div class="table-responsive">
+                <table class="table  table-bordered">
+                  <!--表头-->
+                  <thead>
+                    <tr >
+                      <th width="30">#</th>
+                      <th width="30"><input type="checkbox"></th>
+                      <th>账号</th>
+                      <th>名称</th>
+                      <th>邮箱地址</th>
+                      <th width="100">操作</th>
+                    </tr>
+                  </thead>
+                  <!--表体-->
+                  <tbody>
+                    <tr th:each="item:${pageInfo.list}">
+                      <td th:text="${item.id}">1</td>
+                      <td><input type="checkbox"></td>
+                      <td th:text="${item.loginAcct}">Lorem</td>
+                      <td th:text="${item.userName}">Lorem</td>
+                      <td th:text="${item.email}">Lorem</td>
+                      <td>
+                        <a type="button" class="btn btn-success btn-xs">
+                          <i class=" glyphicon glyphicon-check"></i>
+                        </a>
+                        <!--编辑-->
+                        <a type="button" th:href="@{'/admin/go/edit?id='+${item.id}+'&pageNo='+${pageInfo.pageNum}+'&keyword='+${keyword}}" class="btn btn-primary btn-xs">
+                          <i class=" glyphicon glyphicon-pencil"></i>
+                        </a>
+                        <!--删除-->
+                        <a type="button" class="btn btn-danger btn-xs" th:href="@{'/admin/do/remove?id='+${item.id}+'&pageNo='+${pageInfo.pageNum}+'&keyword='+${keyword}}">
+                          <i class=" glyphicon glyphicon-remove"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <!--表尾-->
+                  <tfoot>
+                    <tr >
+                      <td colspan="6" align="center">
+                        <ul class="pagination">
+                          <li th:class="${pageInfo.hasPreviousPage?'':'disabled'}">
+                            <a href="#" th:href="${pageInfo.hasPreviousPage}?@{'/admin/do/page?pageNo='+(${pageInfo.prePage})+'&pageSize='+${pageInfo.pageSize}+'&keyword='+${keyword}}:'javascript:void()'">上一页</a>
+                          </li>
+
+                          <li class="active">
+                            <a href="#" th:text="${pageInfo.pageNum}">1<span class="sr-only">(current)</span>
+                            </a>
+                          </li>
+
+                          <li th:if="${pageInfo.pageNum+1} le ${pageInfo.pages}">
+                            <a th:href="@{'/admin/do/page?pageNo='+(${pageInfo.pageNum+1})+'&pageSize='+${pageInfo.pageSize}+'&keyword='+${keyword}}" th:text="${pageInfo.pageNum+1}">2</a>
+                          </li>
+
+                          <li th:if="${pageInfo.pageNum+2} le ${pageInfo.pages}">
+                            <a th:href="@{'/admin/do/page?pageNo='+(${pageInfo.pageNum+2})+'&pageSize='+${pageInfo.pageSize}+'&keyword='+${keyword}}" th:text="${pageInfo.pageNum+2}">2</a>
+                          </li>
+
+                          <li th:if="${pageInfo.pageNum+3} le ${pageInfo.pages}">
+                            <a th:href="@{'/admin/do/page?pageNo='+(${pageInfo.pageNum+3})+'&pageSize='+${pageInfo.pageSize}+'&keyword='+${keyword}}" th:text="${pageInfo.pageNum+3}">2</a>
+                          </li>
+
+                          <li th:if="${pageInfo.pageNum+4} le ${pageInfo.pages}">
+                            <a th:href="@{'/admin/do/page?pageNo='+(${pageInfo.pageNum+4})+'&pageSize='+${pageInfo.pageSize}+'&keyword='+${keyword}}" th:text="${pageInfo.pageNum+4}">2</a>
+                          </li>
+
+                          <li th:class="${pageInfo.hasNextPage?'':'disabled'}">
+                            <a th:href="${pageInfo.hasNextPage}?@{'/admin/do/page?pageNo='+(${pageInfo.nextPage})+'&pageSize='+${pageInfo.pageSize}+'&keyword='+${keyword}}:'javascript:void()'">下一页</a>
+                          </li>
+                        </ul>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--js碎片-->
+    <div th:replace="~{fragments/admin-mian-js-include::admin-mian-js-include}"></div>
+
+  </body>
+</html>
