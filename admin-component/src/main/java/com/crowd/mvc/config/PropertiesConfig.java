@@ -29,11 +29,22 @@ public class PropertiesConfig {
     @Value("${mybatis.mapperLocations}")
     private String mapperLocations;
 
-    @Value("${jsp.prefix}")
+    @Value("${thymeleaf.prefix}")
     private String prefix;
 
-    @Value("${jsp.suffix}")
+    @Value("${thymeleaf.suffix}")
     private String suffix;
+
+    @Value("${encoding}")
+    private String encoding;
+
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
 
     public String getPrefix() {
         return prefix;

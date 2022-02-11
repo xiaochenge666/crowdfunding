@@ -8,9 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/*
-* 拦截指定请求，检测他们是否登录，通过获取session对象中是否存在currentAdmin对象，来判断用户是否登录
-* */
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
     @Override

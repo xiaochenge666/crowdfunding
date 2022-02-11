@@ -42,7 +42,8 @@ public class AdminController {
         return "redirect:/admin/toLogin";
     }
 
-    @PostMapping("/do/page")
+    //分页显示/查询用户列表
+    @RequestMapping("/do/page")
     public String getPageInfo(
             @RequestParam(value = "keyword",defaultValue = "") String keyword,
             @RequestParam(value = "pageNo",defaultValue = "1") int pageNo,
@@ -50,37 +51,43 @@ public class AdminController {
             ){
         PageInfo<Admin> pageInfo = adminservice.getPageInfo(keyword, pageNo, pageSize);
         model.addAttribute("pageInfo",pageInfo);
-        return "admin-sidebar-user";
+        model.addAttribute("keyword",keyword);
+        return "admin-user";
     }
 
-    @PostMapping("/do/remove/{id}/{pageNo}/{keyword}.html")
-    public String remove(@PathVariable("id") int id,
-                              @PathVariable("pageNo") int pageNo,
-                              @PathVariable("keyword") String keyword) {
+
+    @RequestMapping("/do/remove")
+    public String remove(@RequestParam(value = "id") int id,
+                              @RequestParam(value = "pageNo",defaultValue = "1") int pageNo,
+                              @RequestParam(value = "keyword",defaultValue = "") String keyword) {
         adminservice.deleteAdmin(id);
-        return "redirect:/admin/do/page.html?pageNo="+pageNo+"&keyword="+keyword;
+        return "redirect:/admin/do/page?pageNo="+pageNo+"&keyword="+keyword;
     }
 
     @RequestMapping("do/add")
     public String addAdmin(Admin admin){
         adminservice.addAdmin(admin);
-        return "redirect:/admin/do/page.html";
+        return "redirect:/admin/do/page?pageNo="+Integer.MAX_VALUE;
     }
 
     @RequestMapping("go/edit")
-    public String goEditAdminPage(String  logincount,Model model){
-        Admin admin = adminservice.queryAdmin(logincount);
-        model.addAttribute("currAdmin",admin);
-        return null;
+    public String goEditAdminPage(@RequestParam("id") int id,
+                                  @RequestParam("pageNo") int pageNo,
+                                  @RequestParam("keyword") String keyword,
+                                  Model model){
+        Admin admin = adminservice.queryAdmin(id);
+        model.addAttribute("user",admin);
+        model.addAttribute("pageNo",pageNo);
+        model.addAttribute("keyword",keyword);
+        return "admin-user-edit";
     }
 
     @RequestMapping("do/edit")
-    public String editAdmin(Admin admin){
-        adminservice.updateAdmin(admin);
-        return null;
+    public String editAdmin(Admin admin,@RequestParam("pageNo") Integer pageNo,
+                              @RequestParam("keyword") String keyword){
+        adminservice.updateAdminSelective(admin);
+        return "redirect:/admin/do/page?pageNo="+pageNo+"&keyword"+keyword;
     }
-
-
 
 
 }

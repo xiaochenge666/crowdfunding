@@ -1,6 +1,7 @@
 package com.crowd.mvc.config;
 
 import com.crowd.mvc.interceptor.LoginInterceptor;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -31,7 +32,10 @@ public class SpringMVCConfig implements WebMvcConfigurer, ApplicationContextAwar
     //添加拦截器
     public void addInterceptors(InterceptorRegistry registry) {
         //未登录会被拦截
-        registry.addInterceptor(new LoginInterceptor()).
+
+        LoginInterceptor loginInterceptor = new LoginInterceptor();
+
+        registry.addInterceptor(loginInterceptor).
                 addPathPatterns("/**").
                 excludePathPatterns("/admin/toLogin").
                 excludePathPatterns("/admin/logout").
@@ -52,6 +56,7 @@ public class SpringMVCConfig implements WebMvcConfigurer, ApplicationContextAwar
         registry.addViewController("/admin/toAdd").setViewName("admin-add");
         registry.addViewController("/").setViewName("index");
         registry.addViewController("/hello").setViewName("hello");
+        registry.addViewController("/go/admin/add").setViewName("admin-user-add");
     }
 
 
@@ -68,23 +73,23 @@ public class SpringMVCConfig implements WebMvcConfigurer, ApplicationContextAwar
 
     //配置视图解析器
     @Bean
-    public ViewResolver viewResolver() {
+    public ViewResolver viewResolver(@Param("propertiesConfig") PropertiesConfig propertiesConfig) {
 
         /*
          * 配置视图解析器
          * */
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-        viewResolver.setCharacterEncoding("UTF-8");
+        viewResolver.setCharacterEncoding(propertiesConfig.getEncoding());
 
         //配置模板引擎
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 
         //配置模板解析器
         SpringResourceTemplateResolver templateResolver =new SpringResourceTemplateResolver();
-        templateResolver.setApplicationContext(this.applicationContext);
-        templateResolver.setPrefix("/WEB-INF/templates/");
-        templateResolver.setSuffix(".html");
-        templateResolver.setCharacterEncoding("UTF-8");
+        templateResolver.setApplicationContext(this.applicationContext);//必须有这一步，否则报错
+        templateResolver.setPrefix(propertiesConfig.getPrefix());
+        templateResolver.setSuffix(propertiesConfig.getSuffix());
+        templateResolver.setCharacterEncoding(propertiesConfig.getEncoding());
         templateResolver.setTemplateMode(TemplateMode.HTML);
         //将模板解析器设置给模板引擎
         templateEngine.setTemplateResolver(templateResolver);

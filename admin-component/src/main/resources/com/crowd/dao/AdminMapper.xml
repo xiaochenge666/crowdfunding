@@ -59,7 +59,30 @@
         #{createTime,jdbcType=DATE},
       </if>
     </trim>
+
   </insert>
+
+  <update id="updateSelective" parameterType="com.crowd.entity.Admin">
+    update t_admin set
+                       <trim suffixOverrides=",">
+                         <if test="loginAcct != null">
+                           login_acct=#{loginAcct},
+                         </if>
+                         <if test="userPswd != null">
+                           user_pswd=#{userPswd},
+                         </if>
+                         <if test="userName != null">
+                           user_name=#{userName},
+                         </if>
+                         <if test="email != null">
+                           email=#{email},
+                         </if>
+                         <if test="createTime != null">
+                           create_time=#{createTime}
+                         </if>
+                       </trim> where id=#{id};
+  </update>
+
   <select id="queryAll" resultMap="BaseResultMap">
     select * from t_admin;
   </select>
@@ -72,6 +95,9 @@
               login_acct like CONCAT("%",#{keyword},"%") or
               user_name like CONCAT("%",#{keyword},"%") or
               email like CONCAT("%",#{keyword},"%")
+  </select>
+  <select id="findUserById" resultMap="BaseResultMap">
+    select * from t_admin where id = #{id};
   </select>
   <delete id="deleteUser">
     delete from t_admin where id=#{id}

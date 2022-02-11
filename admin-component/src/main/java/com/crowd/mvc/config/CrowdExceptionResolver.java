@@ -1,10 +1,7 @@
 package com.crowd.mvc.config;
 
 import com.crowd.constant.CrowdConstant;
-import com.crowd.exception.AccessForbiddenException;
-import com.crowd.exception.AddAdminException;
-import com.crowd.exception.LoginFailedException;
-import com.crowd.exception.UserHasExistedException;
+import com.crowd.exception.*;
 import com.crowd.utils.CrowdUtils;
 import com.crowd.utils.ResponseEntity;
 import com.google.gson.Gson;
@@ -79,12 +76,20 @@ public class CrowdExceptionResolver {
         return this.resolveCommonException(e,request,response,CrowdConstant.ADMIN_LOGIN_VIEW);
     }
 
-    //用户不存在时
+    //用户已经存在时
     @ExceptionHandler(value = UserHasExistedException.class)
     public ModelAndView handelUserExistException(Exception e,
                                                        HttpServletRequest request,
                                                        HttpServletResponse response) throws IOException {
         return this.resolveCommonException(e,request,response,CrowdConstant.ADMIN_ADD_VIEW);
+    }
+
+    //处理用户编辑时的异常
+    @ExceptionHandler(value = UserNotExistException.class)
+    public ModelAndView handelEditException(Exception e,
+                                                 HttpServletRequest request,
+                                                 HttpServletResponse response) throws IOException {
+        return this.resolveCommonException(e,request,response,CrowdConstant.ADMIN_EDIT_VIEW);
     }
 
     //统一服务器错误页面

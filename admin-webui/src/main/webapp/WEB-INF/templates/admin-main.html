@@ -23,13 +23,16 @@
 
   <body>
 
+  <!--页头标签-->
     <div th:insert="~{fragments/admin-mian-navbar-include::admin-mian-navbar-include}"></div>
 
     <div class="container-fluid">
       <div class="row">
-        <!--侧边栏-->
+        <!--侧边栏碎片-->
           <div th:insert="~{fragments/admin-mian-sidebar-include::admin-mian-sidebar-include}"></div>
 
+
+        <!--页面主体-->
 		  <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">控制面板</h1>
 
@@ -58,6 +61,8 @@
         </div>
       </div>
     </div>
+
+    <!--js碎片-->
     <div th:replace="~{fragments/admin-mian-js-include::admin-mian-js-include}"></div>
   </body>
 </html>

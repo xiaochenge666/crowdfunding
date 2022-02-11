@@ -10,6 +10,8 @@ public interface AdminMapper {
 
     int insertSelective(Admin record);
 
+    void updateSelective(Admin admin);
+
     List<Admin> queryAll();
 
     Admin findUserByName(String loginacount);
@@ -20,4 +22,6 @@ public interface AdminMapper {
 
 
     void updateAdmin(Admin admin);
+
+    Admin findUserById(int id);
 }

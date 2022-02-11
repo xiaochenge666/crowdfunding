@@ -3,6 +3,7 @@ package com.crowd.entity;
 import java.util.Date;
 
 public class Admin {
+
     private Integer id;
 
     private String loginAcct;
@@ -73,5 +74,17 @@ public class Admin {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "id=" + id +
+                ", loginAcct='" + loginAcct + '\'' +
+                ", userPswd='" + userPswd + '\'' +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", createTime=" + createTime +
+                '}';
     }
 }

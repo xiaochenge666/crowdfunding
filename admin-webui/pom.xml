@@ -58,6 +58,7 @@
             <artifactId>jsp-api</artifactId>
             <!--<scope>provided</scope>-->
         </dependency>
+
         <!--添加json支持-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

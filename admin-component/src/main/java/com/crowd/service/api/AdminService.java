@@ -14,11 +14,13 @@ public interface AdminService {
 
     PageInfo<Admin> getPageInfo(String keyword,int pageNo,int pageSize);
 
-    int deleteAdmin(int id);
+    void deleteAdmin(int id);
 
     void addAdmin(Admin admin);
 
-    Admin queryAdmin(String logincount);
-
     void updateAdmin(Admin admin);
+
+    Admin queryAdmin(int id);
+
+    void updateAdminSelective(Admin admin);
 }

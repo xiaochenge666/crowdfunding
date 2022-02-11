@@ -21,10 +21,7 @@ public class WebInit extends AbstractAnnotationConfigDispatcherServletInitialize
         return new Class[]{SpringMVCConfig.class};
     }
 
-    @Override
-    protected WebApplicationContext createRootApplicationContext() {
-        return super.createRootApplicationContext();
-    }
+
 
 
     /*
