@@ -49,7 +49,7 @@
                         <button type="button" onclick="queryRoleByKeyword()" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
                     </form>
 
-                    <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+                    <button type="button" id="delete_btn_all" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
                     <button type="button" class="btn btn-primary" style="float:right;" onclick="showAddDialog()"><i class="glyphicon glyphicon-plus"></i> 新增</button>
                     <br>
                     <hr style="clear:both;">
@@ -57,11 +57,11 @@
                         <table class="table  table-bordered">
                             <thead>
                                 <tr >
-                                <th width="30">#</th>
-                                <th width="30"><input type="checkbox"></th>
-                                <th>名称</th>
-                                <th width="100">操作</th>
-                            </tr>
+                                    <th width="30">#</th>
+                                    <th width="30"><input id="check_all_role" type="checkbox"></th>
+                                    <th>名称</th>
+                                    <th width="100">操作</th>
+                                </tr>
                             </thead>
                             <tbody id="role-table">
                                 <tr>
@@ -76,14 +76,11 @@
                                 </tr>
                             </tbody>
                             <tfoot>
-                            <tr >
-                                <td colspan="6" align="center">
-                                    <ul class="pagination">
-
-                                    </ul>
-                                </td>
-                            </tr>
-
+                                <tr >
+                                    <td colspan="6" align="center">
+                                        <ul class="pagination"></ul>
+                                    </td>
+                                </tr>
                             </tfoot>
                         </table>
                     </div>
@@ -96,6 +93,7 @@
 <div th:replace="~{fragments/admin-mian-js-include::admin-mian-js-include}"></div>
 <div th:insert="~{fragments/admin-role-add::dialog_add}"></div>
 <div th:insert="~{fragments/admin-role-edit::dialog_edit}"></div>
+<div th:insert="~{fragments/admin-role-delete::dialog_delete}"></div>
 <script th:src="@{/script/role-page.js}"></script>
 <script th:src="@{/jquery/jquery.pagination.js}"></script>
 <script type="text/javascript">

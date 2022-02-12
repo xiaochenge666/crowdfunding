@@ -30,6 +30,7 @@ public class CrowdExceptionResolver {
                                                 HttpServletResponse response,
                                                 String viewName) throws IOException {
 
+        response.setCharacterEncoding("UTF-8");
 
         //首先判断请求类型ajax/html
         boolean isAjax= CrowdUtils.isAjaxRequest(request);
@@ -41,10 +42,13 @@ public class CrowdExceptionResolver {
 
         //若是ajax请求，则响应形式则按照json形式进行响应！
         if(isAjax){
+
+            response.setContentType("application/json");//避免中文乱码
+
             ResponseEntity<Object> responseEntity= ResponseEntity.fail(exceptionInfo);
             Gson gson=new Gson();
             String toJson = gson.toJson(responseEntity);
-//            System.out.println(toJson);
+
             logger.info("一个异常信息被转换成json字符串，并被转发给了用户！："+toJson);
             PrintWriter writer=response.getWriter();
             writer.write(toJson);
@@ -92,8 +96,9 @@ public class CrowdExceptionResolver {
         return this.resolveCommonException(e,request,response,CrowdConstant.ADMIN_EDIT_VIEW);
     }
 
+
     //统一服务器错误页面
-    @ExceptionHandler(value = {AddAdminException.class,RuntimeException.class,NullPointerException.class})
+    @ExceptionHandler(value = {AddAdminException.class,RuntimeException.class,NullPointerException.class,ParameterIllegalException.class})
     public ModelAndView handel500Error(Exception e,
                                        HttpServletRequest request,
                                        HttpServletResponse response) throws IOException {

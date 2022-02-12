@@ -91,6 +91,9 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  <delete id="deleteRole" parameterType="com.crowd.entity.Role">
+    delete from t_role where id=#{id}
+  </delete>
 
   <update id="updateRole" parameterType="com.crowd.entity.Role">
     update t_role set name =#{name} where id = #{id};

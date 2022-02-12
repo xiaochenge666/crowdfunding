@@ -6,9 +6,12 @@ import com.crowd.utils.ResponseEntity;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/role")
@@ -42,4 +45,21 @@ public class RoleController {
         roleService.editRole(role);
         return ResponseEntity.successWithoutData();
     }
+
+    //删除用户
+    @RequestMapping("/delete")
+    @ResponseBody
+    public ResponseEntity deleteRole(Role role){
+        roleService.removeRole(role);
+        return ResponseEntity.successWithoutData();
+    }
+
+    //批量删除
+    @RequestMapping("/deleteBatch")
+    @ResponseBody
+    public ResponseEntity deleteRoleBatch(@RequestBody List<Role> roles){
+        roleService.removeRoleBatch(roles);
+        return ResponseEntity.successWithoutData();
+    }
+
 }

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface RoleMapper {
+
     long countByExample(RoleExample example);
 
     int deleteByExample(RoleExample example);
@@ -24,4 +25,7 @@ public interface RoleMapper {
     int updateByExample(@Param("record") Role record, @Param("example") RoleExample example);
 
     void updateRole(Role role);
+
+    void deleteRole(Role role);
+
 }

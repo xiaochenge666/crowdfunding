@@ -1,0 +1,28 @@
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="dialog_delete">
+    <div id="roleDeleteModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">尚筹网系统弹窗</h4>
+                </div>
+                <form>
+                    <div class="modal-body">
+
+                        <div>是否删除所选项？</div>
+                        <div id="delete-list-items" style="text-align: center">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="doDeleteRole()" type="button" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> 保存</button>
+                        <!--<button id="roleResetBtn" type="reset" class="btn btn-primary"><i class="glyphicon glyphicon-refresh"></i> 重置</button>-->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
