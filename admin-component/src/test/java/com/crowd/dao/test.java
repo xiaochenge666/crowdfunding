@@ -13,16 +13,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.DigestUtils;
+
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig(classes = {SpringConfig.class})
 @SpringJUnitWebConfig(classes = {SpringMVCConfig.class})
+
 public class test {
 
     @Autowired
     DataSource dataSource;
+
     @Test
     public void test() throws SQLException {
         System.out.print(dataSource.getConnection());
@@ -67,6 +71,19 @@ public class test {
 
     @Test
     public void test4(){
+
+
         System.out.println(adminservice.getAdminByLoginAcct("199", "111").getUserPswd());
     }
+
+    @Test
+
+    public void test111(){
+
+            String salt = "ux$ad70*b";
+            Integer memberId = 12372032;
+//            String md5 = DigestUtils.md5Hex("1085" + memberId + "1630902134216");
+//            System.out.println(DigestUtils.md5Hex(md5 + salt));
+    }
+
 }

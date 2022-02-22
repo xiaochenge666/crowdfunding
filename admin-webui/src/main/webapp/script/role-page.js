@@ -256,7 +256,6 @@ function isAllRoleCheckedAll(){//控制全选按钮的状态
     });
 }
 
-
 //点击批量删除按钮时
 $("#delete_btn_all").on("click",function () {
     //清空消息框
@@ -277,6 +276,7 @@ $("#delete_btn_all").on("click",function () {
     });
 
 });
+
 //删除所选项
 function doDeleteRole() {
     let alreadyCheckOfIdArrays = window.alreadyCheckOfIdArrays;

@@ -17,6 +17,8 @@ public class CrowdUtilsTest {
     @Resource
     AdminService adminService;
 
+
+
     @Test
     public  void test(){
         String pwd = "123Abcde23213";

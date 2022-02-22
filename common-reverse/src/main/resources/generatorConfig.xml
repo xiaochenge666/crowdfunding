@@ -44,7 +44,8 @@
 
         <!--指定数据库表，要和数据库中进行对应，否则将会出错-->
         <!--<table tableName="t_admin"  domainObjectName="admin"/>-->
-        <table tableName="t_role"  domainObjectName="Role"/>
+        <!--<table tableName="t_role"  domainObjectName="Role"/>-->
+        <table tableName="t_menu"  domainObjectName="Menu"/>
                <!--enableCountByExample="false" enableUpdateByExample="false"-->
                <!--enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"/>-->

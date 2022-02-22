@@ -58,6 +58,7 @@ public class SpringMVCConfig implements WebMvcConfigurer, ApplicationContextAwar
         registry.addViewController("/hello").setViewName("hello");
         registry.addViewController("/go/admin/add").setViewName("admin-user-add");
         registry.addViewController("/go/role").setViewName("admin-role");
+        registry.addViewController("/menu/permission").setViewName("admin-menu");
     }
 
 
