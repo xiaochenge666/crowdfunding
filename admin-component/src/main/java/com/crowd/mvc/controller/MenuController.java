@@ -35,4 +35,10 @@ public class MenuController {
         menuService.editMenu(menu);
         return ResponseEntity.successWithoutData();
     }
+
+    @RequestMapping("/do/delete")
+    public ResponseEntity deleteMenu(@RequestBody Menu menu){
+        menuService.deleteMenu(menu);
+        return ResponseEntity.successWithoutData();
+    }
 }

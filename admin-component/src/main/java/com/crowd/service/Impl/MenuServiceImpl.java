@@ -70,4 +70,15 @@ public class MenuServiceImpl implements MenuService {
             throw new RuntimeException("编辑menu出错！");
         }
     }
+
+    @Override
+    public void deleteMenu(Menu menu) {
+        try {
+            menuMapper.deleteByMenu(menu);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            throw new RuntimeException("删除时出错了！");
+        }
+    }
 }

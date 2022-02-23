@@ -10,4 +10,6 @@ public interface MenuService {
     void addMenu(Menu menu);
 
     void editMenu(Menu menu);
+
+    void deleteMenu(Menu menu);
 }

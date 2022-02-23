@@ -178,5 +178,7 @@
   <update id="update" parameterType="com.crowd.entity.Menu">
     update t_menu set pid =#{pid},name=#{name},url=#{url},icon=#{icon} where id=#{id}
   </update>
-
+  <delete id="deleteByMenu" parameterType="com.crowd.entity.Menu">
+    delete from t_menu where id = #{id}
+  </delete>
 </mapper>

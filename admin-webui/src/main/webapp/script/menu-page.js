@@ -80,9 +80,11 @@ function addHoverDom(treeId,treeNode) {
     window.icon = treeNode.icon;
 
     //注意！！！ 该函数必须放在以上代码之下  //为按钮绑定响应事件
-    $("#addBtn").on('click',onClickAddBtn);
-    $("#deleteBtn").on('click',onClickDeleteBtn);
-    $("#editBtn").on('click',onClickEditBtn);
+    $("#addBtn").on('click',onClickAddBtn);//添加时
+    $("#deleteBtn").on('click',onClickDeleteBtn);//删除时
+    $("#editBtn").on('click',onClickEditBtn);//编辑时
+
+
 
 
 
@@ -140,13 +142,10 @@ function onClickEditBtn() {
     let selector = '#menuEditModal [value=\''+window.icon+'\']';
     selector = selector.replace(/[\r\n]/g,"\r");
     $(selector).attr('checked','checked');
-    console.log($(selector));
-
+    // console.log($(selector));
     //显示模态框
     $("#menuEditModal").modal("show");
-
-
-
+    //点击确认删除时
     $("#menuEditSaveBtn").on('click',function () {
         //获取修改后的数据
         let pid = window.pid;
@@ -188,5 +187,46 @@ function onClickEditBtn() {
 
 //删除时触发
 function onClickDeleteBtn() {
+    //获取原始数据,并将其创建为dom元素
+    let name_dom = "<div>"+window.name+"</div>";
+    let url_dom = "<div>"+window.url+"</div>";
+
+    let delete_dialog = $("#delete-list-items");
+    //获取模态框
+    delete_dialog.append(name_dom+url_dom);
+    //显示模态框
+    $("#menuDeleteModal").modal("show");
+
+    //为确认删除按钮绑定响应事件
+    $("#do_delete_btn").on("click",function () {
+        //获取id
+        let id = window.id;
+        //发送删除请求
+        $.ajax({
+            url:'../menu/do/delete',
+            method:"post",
+            data:JSON.stringify({id:id}),
+            async:false,
+            contentType:'application/json;charset=UTF-8',
+            success:function (res) {
+                if (res.operationResult === 'FAILED'){
+                    layer.msg(res.operationMessage);
+                    return;
+                }
+                layer.msg("操作成功！")
+            }
+        });
+
+        //隐藏模态框
+        $("#menuDeleteModal").modal("hide");
+
+        //清空对话框
+        delete_dialog.empty();
+
+        //重新生成dom树
+        generateTree();
+
+    })
+
 
 }

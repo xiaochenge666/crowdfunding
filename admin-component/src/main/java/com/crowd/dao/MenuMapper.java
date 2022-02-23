@@ -24,4 +24,6 @@ public interface MenuMapper {
     List<Menu> queryAllMenu();
 
     void update(Menu menu);
+
+    void deleteByMenu(Menu menu);
 }
