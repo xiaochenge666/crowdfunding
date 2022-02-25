@@ -3,6 +3,7 @@ package com.crowd.service.Impl;
 import com.crowd.constant.CrowdConstant;
 import com.crowd.dao.AdminMapper;
 import com.crowd.entity.Admin;
+import com.crowd.entity.Role;
 import com.crowd.exception.AddAdminException;
 import com.crowd.exception.LoginFailedException;
 import com.crowd.exception.UserHasExistedException;
@@ -11,6 +12,7 @@ import com.crowd.service.api.AdminService;
 import com.crowd.utils.CrowdUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
@@ -19,7 +21,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -150,4 +154,40 @@ public class AdminServiceImpl implements AdminService {
 
     }
 
+    @Override
+    public List<Role> queryAlreadyAssignRole(Integer id) {
+        return adminMapper.queryAlreadyAssignRole(id);
+    }
+
+    @Override
+    public List<Role> queryUnAssignRole(Integer id) {
+        return adminMapper.queryUnAssignRole(id);
+    }
+
+    @Override
+    @Transactional
+    public void saveNewAssignRole(Integer id, List<Integer> newRolesAssign) {
+        //删除原始的
+        adminMapper.removeAllAssignRoleByUserId(id);
+        //添加新的
+
+        /**
+         * 使用 foreach 标签时，最关键、最容易出错的是 collection 属性，该属性是必选的，但在不同情况下该属性的值是不一样的，主要有以下 3 种情况：
+         * 如果传入的是单参数且参数类型是一个 List，collection 属性值为 list。
+         * 如果传入的是单参数且参数类型是一个 array 数组，collection 的属性值为 array。
+         * 如果传入的参数是多个，需要把它们封装成一个 Map，当然单参数也可以封装成 Map。Map 的 key 是参数名，collection 属性值是传入的 List 或 array 对象在自己封装的 Map 中的 key。*/
+
+        /*Map<String,Object> map = new HashMap<>();
+        map.put("id",id);
+        map.put("newRolesAssign",newRolesAssign);*/
+
+        if (newRolesAssign==null||newRolesAssign.size()==0){
+            logger.warn("admin的id为："+id+"的用户，没有分配任何权限！");
+            return;
+        }
+
+        adminMapper.addNewAssignRoleByUserId(id,newRolesAssign);
+    }
+
 }
+

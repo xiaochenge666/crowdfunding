@@ -1,5 +1,6 @@
 package com.crowd.service.api;
 import com.crowd.entity.Admin;
+import com.crowd.entity.Role;
 import com.github.pagehelper.PageInfo;
 import java.util.List;
 
@@ -23,4 +24,10 @@ public interface AdminService {
     Admin queryAdmin(int id);
 
     void updateAdminSelective(Admin admin);
+
+    List<Role> queryAlreadyAssignRole(Integer id);
+
+    List<Role> queryUnAssignRole(Integer id);
+
+    void saveNewAssignRole(Integer id, List<Integer> newRolesAssign);
 }

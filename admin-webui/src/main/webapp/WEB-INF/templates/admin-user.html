@@ -75,7 +75,8 @@
                       <td th:text="${item.userName}">Lorem</td>
                       <td th:text="${item.email}">Lorem</td>
                       <td>
-                        <a type="button" class="btn btn-success btn-xs">
+                        <!--角色分配-->
+                        <a type="button" th:href="@{'/assign/to/assign/role?id='+${item.id}+'&pageNo='+${pageInfo.pageNum}+'&keyword='+${keyword}}" class="btn btn-success btn-xs">
                           <i class=" glyphicon glyphicon-check"></i>
                         </a>
                         <!--编辑-->

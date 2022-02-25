@@ -1,0 +1,110 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <div th:replace="~{fragments/head::style_head}"></div>
+	<link rel="stylesheet" th:href="@{/css/main.css}">
+	<style>
+	.tree li {
+        list-style-type: none;
+		cursor:pointer;
+	}
+	.tree-closed {
+	    height : 40px;
+	}
+	.tree-expanded {
+	    height : auto;
+	}
+	</style>
+  </head>
+
+  <body>
+
+  <!--页头标签-->
+    <div th:insert="~{fragments/admin-mian-navbar-include::admin-mian-navbar-include}"></div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <!--侧边栏碎片-->
+          <div th:insert="~{fragments/admin-mian-sidebar-include::admin-mian-sidebar-include}"></div>
+        <!--页面主体-->
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <ol class="breadcrumb">
+              <li><a href="#">首页</a></li>
+              <li><a href="#">数据列表</a></li>
+              <li class="active">分配角色</li>
+            </ol>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <form role="form" th:action="@{/assign/role/submit}" method="post">
+                  <div class="form-group">
+                    <input type="hidden" th:value="${id}" name="id">
+                  </div>
+                  <div class="form-group">
+                    <input type="hidden" th:value="${pageNo}" name="pageNo">
+                  </div>
+                  <div class="form-group">
+                    <input type="hidden" th:value="${keyword}" name="keyword">
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="form-group">
+                      <label>未分配角色列表</label><br>
+                      <select class="form-control" multiple size="10" style="width:100px;overflow-y:auto;">
+                        <option th:each="item:${rolesUnAssign}" th:value="${item.id}" th:text="${item.name}"></option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <ul>
+                        <li id="right_btn" class="btn btn-default glyphicon glyphicon-chevron-right"></li>
+                        <br>
+                        <li id="left_btn" class="btn btn-default glyphicon glyphicon-chevron-left" style="margin-top:20px;"></li>
+                      </ul>
+                    </div>
+                    <div class="form-group" style="margin-left:40px;">
+                      <label>已分配角色列表</label><br>
+                      <select name="newRolesAssign" class="form-control" multiple size="10" style="width:100px;overflow-y:auto;">
+                        <option th:each="item:${rolesAssign}" th:value="${item.id}" th:text="${item.name}"></option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <button class="btn btn-primary" type="submit">提交</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!--js碎片-->
+    <div th:replace="~{fragments/admin-mian-js-include::admin-mian-js-include}"></div>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        //到右边
+        $("#right_btn").on('click',function () {
+            $('select:eq(0)>option:selected').appendTo($('select:eq(1)'));
+        });
+        //到左边
+        $("#left_btn").on('click',function () {
+            $('select:eq(1)>option:selected').appendTo($('select:eq(0)'));
+        });
+
+        //点击提交时
+        $("button[type='submit']").on('click',function () {
+            //将右边所有的item的checked属性设置为选中状态
+            /**
+             *  复选框是网站开发的时候经常用到的网页标签之一，常见的在页面上对复选框的操作包括取值和修改复选框的状态。在jquery中，常见的操作标签的值得函数为attr，然而在操作复选框的时候，通常采用的却是prop，因为关于复选框的值，来自于properties而不是attributes。
+             * */
+            $('select:eq(1)>option').prop("selected","selected");
+            // return false;
+        })
+
+      })
+    </script>
+  </body>
+</html>

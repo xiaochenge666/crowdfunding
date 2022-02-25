@@ -1,8 +1,11 @@
 package com.crowd.dao;
 
 import com.crowd.entity.Admin;
+import com.crowd.entity.Role;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface AdminMapper {
@@ -24,4 +27,13 @@ public interface AdminMapper {
     void updateAdmin(Admin admin);
 
     Admin findUserById(int id);
+
+    List<Role> queryAlreadyAssignRole(Integer id);
+
+    List<Role> queryUnAssignRole(Integer id);
+
+    void removeAllAssignRoleByUserId(Integer id);
+
+
+    void addNewAssignRoleByUserId(@Param("id") Integer id, @Param("newRolesAssign") List<Integer> newRolesAssign);
 }

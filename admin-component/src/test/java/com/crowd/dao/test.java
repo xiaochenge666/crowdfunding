@@ -17,6 +17,10 @@ import org.springframework.util.DigestUtils;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig(classes = {SpringConfig.class})
@@ -79,11 +83,16 @@ public class test {
     @Test
 
     public void test111(){
-
-            String salt = "ux$ad70*b";
-            Integer memberId = 12372032;
-//            String md5 = DigestUtils.md5Hex("1085" + memberId + "1630902134216");
-//            System.out.println(DigestUtils.md5Hex(md5 + salt));
+        List<Integer> roles = new ArrayList<>();
+        roles.add(1);
+        roles.add(17);
+        roles.add(20);
+        Map<String,Object> map = new HashMap<>();
+        map.put("id",207);
+        map.put("newRolesAssign",roles);
+        adminMapper.addNewAssignRoleByUserId(207,roles);
     }
+
+
 
 }

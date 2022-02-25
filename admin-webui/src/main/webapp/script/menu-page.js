@@ -19,6 +19,7 @@ function generateTree() {//生成tree
     //拿到数据后开始初始化
     $.fn.zTree.init($("#treeDemo"), setting, nodeData);
 }
+
 //发送请求查询出所有的菜单项
 function queryAll() {
     let queryData=null;
@@ -38,11 +39,13 @@ function queryAll() {
 
     return queryData;
 }
+
 //自定义icon
 function addDiyDom(treeId,treeNode) {
     console.log(treeId,treeNode);
     $("#"+treeNode.tId+"_ico").removeClass().addClass(treeNode.icon);
 }
+
 //当鼠标移入节点时触发
 function addHoverDom(treeId,treeNode) {
     let tool_bar_exist = $("#" + treeNode.tId + '_bar').length !== 0;
@@ -84,11 +87,8 @@ function addHoverDom(treeId,treeNode) {
     $("#deleteBtn").on('click',onClickDeleteBtn);//删除时
     $("#editBtn").on('click',onClickEditBtn);//编辑时
 
-
-
-
-
 }
+
 //当鼠标从节点上移除时触发
 function removeHoverDom (treeId,treeNode) {
     $("#" + treeNode.tId + '_bar').remove();
@@ -132,6 +132,7 @@ function onClickAddBtn() {
         generateTree();
     })
 }
+
 //编辑时触发
 function onClickEditBtn() {
     //获取原始数据

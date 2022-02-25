@@ -9,6 +9,12 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="create_time" jdbcType="DATE" property="createTime" />
   </resultMap>
+
+  <resultMap id="RoleResultMap" type="com.crowd.entity.Role">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+
   <insert id="insert" parameterType="com.crowd.entity.Admin">
     insert into t_admin (id, login_acct, user_pswd, 
       user_name, email, create_time
@@ -111,4 +117,22 @@
     where
           login_acct=#{admin.loginAcct}
   </update>
+
+  <select id="queryAlreadyAssignRole" parameterType="java.lang.Integer" resultMap="RoleResultMap">
+    select * from t_role where id in (select role_id from admin_inner_role where admin_id=#{id})
+  </select>
+
+  <select id="queryUnAssignRole" parameterType="java.lang.Integer" resultMap="RoleResultMap">
+    select * from t_role where id not in (select role_id from admin_inner_role where admin_id=#{id})
+  </select>
+  <delete id="removeAllAssignRoleByUserId" parameterType="java.lang.Integer">
+    delete from admin_inner_role where admin_id=#{id}
+  </delete>
+
+  <insert id="addNewAssignRoleByUserId">
+    insert into admin_inner_role(id,admin_id,role_id) values
+    <foreach collection="newRolesAssign" item="role_id" separator=",">
+      (null,#{id},#{role_id})
+    </foreach>
+  </insert>
 </mapper>
