@@ -1,5 +1,7 @@
 package com.crowd.mvc.config;
 import com.alibaba.druid.pool.DruidDataSource;
+import com.crowd.mvc.annotaion.RootIgnore;
+import com.crowd.mvc.config.auth.SpringSecurityConfig;
 import com.github.pagehelper.PageHelper;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -8,6 +10,7 @@ import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
@@ -19,7 +22,8 @@ import java.util.Properties;
 * */
 @Configuration//配置类
 @MapperScan("com.crowd.dao")//扫描指定路径下的mapper接口，可以代替 MapperScannerConfigurer
-@ComponentScan({"com.crowd.mvc.config","com.crowd.service"})//扫描指定路径下的包
+@ComponentScan(value = {"com.crowd.mvc.config","com.crowd.service"},
+        excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION,value = RootIgnore.class)})//扫描指定路径下的包
 @EnableTransactionManagement//开启事务管理
 public class SpringConfig {
 
@@ -39,7 +43,6 @@ public class SpringConfig {
         druidDataSource.setDriverClassName(propertiesConfig.getDriver());
         return druidDataSource;
     }
-
     /*
     * 配置mybatis
     * */

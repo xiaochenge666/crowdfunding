@@ -1,10 +1,14 @@
 package com.crowd.mvc.controller;
 import com.crowd.constant.CrowdConstant;
 import com.crowd.entity.Admin;
+import com.crowd.exception.AccessForbiddenException;
+import com.crowd.mvc.config.auth.CrowdPasswordEncoder;
 import com.crowd.service.api.AdminService;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +26,7 @@ public class AdminController {
     AdminService adminservice;
 
 
-    @RequestMapping("/doLogin")
+    @RequestMapping("/doLoginAfter")
     public String doLogin(@RequestParam("username") String name,
                           @RequestParam("password") String pwd,
                           HttpSession session){
@@ -57,6 +61,7 @@ public class AdminController {
 
 
     @RequestMapping("/do/remove")
+    @PreAuthorize("hasAuthority('user:delete')")
     public String remove(@RequestParam(value = "id") int id,
                               @RequestParam(value = "pageNo",defaultValue = "1") int pageNo,
                               @RequestParam(value = "keyword",defaultValue = "") String keyword) {
@@ -64,12 +69,14 @@ public class AdminController {
         return "redirect:/admin/do/page?pageNo="+pageNo+"&keyword="+keyword;
     }
 
+    @PreAuthorize(value = "hasAuthority('user:add')")
     @RequestMapping("do/add")
     public String addAdmin(Admin admin){
         adminservice.addAdmin(admin);
         return "redirect:/admin/do/page?pageNo="+Integer.MAX_VALUE;
     }
 
+    @PreAuthorize(value = "hasAuthority('user:edit')")
     @RequestMapping("go/edit")
     public String goEditAdminPage(@RequestParam("id") int id,
                                   @RequestParam("pageNo") int pageNo,
@@ -83,6 +90,7 @@ public class AdminController {
     }
 
     //编辑
+    @PreAuthorize(value = "hasAuthority('user:edit')")
     @RequestMapping("do/edit")
     public String editAdmin(Admin admin,@RequestParam("pageNo") Integer pageNo,
                               @RequestParam("keyword") String keyword){
@@ -90,5 +98,10 @@ public class AdminController {
         return "redirect:/admin/do/page?pageNo="+pageNo+"&keyword"+keyword;
     }
 
+    //登录失败！
+    @RequestMapping("login/fail")
+    public void AuthFail(){
+        throw new AccessForbiddenException("账号或密码错误！");
+    }
 
 }

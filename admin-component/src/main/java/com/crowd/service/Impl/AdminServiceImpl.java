@@ -3,11 +3,13 @@ package com.crowd.service.Impl;
 import com.crowd.constant.CrowdConstant;
 import com.crowd.dao.AdminMapper;
 import com.crowd.entity.Admin;
+import com.crowd.entity.Auth;
 import com.crowd.entity.Role;
 import com.crowd.exception.AddAdminException;
 import com.crowd.exception.LoginFailedException;
 import com.crowd.exception.UserHasExistedException;
 import com.crowd.exception.UserNotExistException;
+import com.crowd.mvc.config.auth.CrowdPasswordEncoder;
 import com.crowd.service.api.AdminService;
 import com.crowd.utils.CrowdUtils;
 import com.github.pagehelper.PageHelper;
@@ -16,14 +18,18 @@ import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -35,19 +41,9 @@ public class AdminServiceImpl implements AdminService {
     @Resource
     AdminMapper adminMapper;
 
-    public void saveAdmin(Admin admin) {
-        if (admin!=null&&admin.getUserPswd()!=null){
-            //保存用户时需要对密码进行md5加密处理
-            String userPswd = admin.getUserPswd();
-            admin.setUserPswd(CrowdUtils.md5(userPswd));
-        }
-        String pwd=CrowdUtils.md5("111");
-        admin = new Admin(null,"1999",pwd,"222","223",new Date());
+    @Resource
+    CrowdPasswordEncoder passwordEncoder;
 
-
-
-        int code = adminMapper.insert(admin);
-    }
 
     public List<Admin> queryAll() {
         return adminMapper.queryAll();
@@ -105,7 +101,7 @@ public class AdminServiceImpl implements AdminService {
 
         //使用MD5对密码进行加密
         String pwd = admin.getUserPswd();
-        String pwdMd5 = CrowdUtils.md5(pwd);
+        String pwdMd5 = passwordEncoder.encode(pwd);//使用springSecurity的自定义的实现类加密方法进行加密
         admin.setUserPswd(pwdMd5);
         admin.setCreateTime(new Date());
 
@@ -189,5 +185,38 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.addNewAssignRoleByUserId(id,newRolesAssign);
     }
 
+    //security的认证数据源配置
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Admin admin = adminMapper.findUserByName(username);
+
+        if (admin==null){
+            logger.warn("当前用户名不存在！");
+            throw new UsernameNotFoundException("当前用户名不存在");
+        }
+
+        List<SimpleGrantedAuthority> grantedAuthorityList = new ArrayList<>();
+
+        //添加权限
+        List<Auth> authList = adminMapper.queryAssignedAuthByUsername(username);
+        if (authList!=null&&authList.size()>0){
+            authList.forEach(e->{
+                grantedAuthorityList.add(new SimpleGrantedAuthority(e.getName()));
+            });
+        }
+
+        //添加角色
+        List<Role> roleList = adminMapper.queryAssignRoleByUsername(username);
+        if (roleList!=null&&roleList.size()>0){
+            roleList.forEach(e->{
+                grantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_"+e.getName()));
+            });
+        }
+
+
+        //返回的user对象，会被security作为主体（principle）
+        return new User(admin.getUserName(), admin.getUserPswd(), grantedAuthorityList);
+
+    }
 }
 

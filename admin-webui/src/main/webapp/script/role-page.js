@@ -9,6 +9,7 @@ function refreshPage() {
     $("#check_all_role").prop("checked",false);
     isAllRoleCheckedAll();
 
+    bindEventToEditBtn();//绑定响应事件
 }
 
 //获取pageInfo
@@ -207,7 +208,6 @@ function delete_click(id) {
 
 
 //获取已选中的角色项
-
 function parseCheckedOfRoleItem(){
     window.alreadyCheckOfIdArrays = undefined;
 

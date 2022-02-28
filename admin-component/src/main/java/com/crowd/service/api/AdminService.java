@@ -2,12 +2,12 @@ package com.crowd.service.api;
 import com.crowd.entity.Admin;
 import com.crowd.entity.Role;
 import com.github.pagehelper.PageInfo;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import java.util.List;
 
 
-public interface AdminService {
-
-    void saveAdmin(Admin admin);
+public interface AdminService extends UserDetailsService {
 
     List<Admin> queryAll();
 

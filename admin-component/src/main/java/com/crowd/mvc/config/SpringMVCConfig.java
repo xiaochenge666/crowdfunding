@@ -1,5 +1,6 @@
 package com.crowd.mvc.config;
 
+import com.crowd.mvc.annotaion.RootIgnore;
 import com.crowd.mvc.interceptor.LoginInterceptor;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -23,7 +25,10 @@ import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({"com.crowd.mvc.controller"})
+@ComponentScan(value = {"com.crowd.mvc.controller"})
+@ComponentScan(value = "com.crowd.mvc.config",
+        includeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION,
+                value = RootIgnore.class)},useDefaultFilters = false)
 public class SpringMVCConfig implements WebMvcConfigurer, ApplicationContextAware {
 
     private ApplicationContext applicationContext;
@@ -32,17 +37,17 @@ public class SpringMVCConfig implements WebMvcConfigurer, ApplicationContextAwar
     //添加拦截器
     public void addInterceptors(InterceptorRegistry registry) {
         //未登录会被拦截
-
-        LoginInterceptor loginInterceptor = new LoginInterceptor();
-
+        /*LoginInterceptor loginInterceptor = new LoginInterceptor();
         registry.addInterceptor(loginInterceptor).
                 addPathPatterns("/**").
                 excludePathPatterns("/admin/toLogin").
                 excludePathPatterns("/admin/logout").
                 excludePathPatterns("/admin/doLogin").
                 excludePathPatterns("/").
-                excludePathPatterns("/hello");
+                excludePathPatterns("/hello");*/
     }
+
+
 
     //开启默认servlet处理静态文件的访问！
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {

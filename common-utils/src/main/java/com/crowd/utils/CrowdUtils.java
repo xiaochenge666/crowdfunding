@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CrowdUtils {
@@ -67,6 +69,41 @@ public class CrowdUtils {
 
         return null;
     }
+
+    public static String md5Slat(String rawString,String salt){
+
+
+
+        return null;
+    }
+
+
+
+    public static Boolean matchesMd5(String raw,String encode){
+        if (raw==null&&encode==null){
+            throw new RuntimeException("参数不合法");
+        }
+        return encode.equals(md5(raw));
+    }
+
+
+    //将obj转换为List
+    public static <T> List<T> castList(Object obj, Class<T> clazz)
+    {
+        List<T> result = new ArrayList<T>();
+        if(obj instanceof List<?>)
+        {
+            for (Object o : (List<?>) obj)
+            {
+                result.add(clazz.cast(o));
+            }
+            return result;
+        }else {
+            logger.error("该OBJ对象不能转为List集合");
+            throw new ClassCastException("该OBJ对象不能转为List集合");
+        }
+    }
+
 
 
 }

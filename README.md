@@ -36,3 +36,8 @@ th:action="@{/admin/doLogin}"//访问时真实路径：http://localhost:8849/web
 ###问题3：
 thymeleaf碎片的使用````
 
+###Spring根容器和子容器的关系
+- spring 作为根容器<br>
+- spring mvc 作为子容器<br>
+- 子容器可以用getBean方法获取到父容器中的bean
+- 而父容器不能得到子容器中的bean对象

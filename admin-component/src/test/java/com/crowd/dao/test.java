@@ -1,9 +1,11 @@
 package com.crowd.dao;
 import com.crowd.entity.Admin;
+import com.crowd.entity.Auth;
 import com.crowd.entity.Role;
 import com.crowd.mvc.config.SpringConfig;
 import com.crowd.mvc.config.SpringMVCConfig;
 import com.crowd.service.api.AdminService;
+import com.crowd.service.api.AuthService;
 import com.crowd.service.api.RoleService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,6 +51,9 @@ public class test {
     @Autowired
     RoleMapper roleMapper;
 
+    @Autowired
+    AuthService authService;
+
     @Test
     public void test10(){
 
@@ -62,7 +67,7 @@ public class test {
 
     @Test
     public void test2(){
-        adminservice.saveAdmin(new Admin());
+
     }
 
     @Test
@@ -81,7 +86,6 @@ public class test {
     }
 
     @Test
-
     public void test111(){
         List<Integer> roles = new ArrayList<>();
         roles.add(1);
@@ -94,5 +98,11 @@ public class test {
     }
 
 
+    @Test
+    public void test112(){
+        List<Auth> authList = authService.queryAuthByRoleId(1);
+        System.out.println(authList.toString());
+
+    }
 
 }

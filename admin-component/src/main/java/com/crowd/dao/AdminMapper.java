@@ -1,6 +1,7 @@
 package com.crowd.dao;
 
 import com.crowd.entity.Admin;
+import com.crowd.entity.Auth;
 import com.crowd.entity.Role;
 import org.apache.ibatis.annotations.Param;
 
@@ -36,4 +37,8 @@ public interface AdminMapper {
 
 
     void addNewAssignRoleByUserId(@Param("id") Integer id, @Param("newRolesAssign") List<Integer> newRolesAssign);
+
+    List<Auth> queryAssignedAuthByUsername(String username);
+
+    List<Role> queryAssignRoleByUsername(String username);
 }

@@ -10,6 +10,13 @@
     <result column="create_time" jdbcType="DATE" property="createTime" />
   </resultMap>
 
+  <resultMap id="AuthResultMap" type="com.crowd.entity.Auth">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+  </resultMap>
+
   <resultMap id="RoleResultMap" type="com.crowd.entity.Role">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -135,4 +142,20 @@
       (null,#{id},#{role_id})
     </foreach>
   </insert>
+
+  <select id="queryAssignedAuthByUsername" resultMap="AuthResultMap">
+    select distinct t_auth.* from t_auth
+                                    right join role_inner_auth on t_auth.id=role_inner_auth.auth_id
+                                    right join t_role on t_role.id=role_inner_auth.role_id
+                                    right join admin_inner_role on role_inner_auth.role_id = admin_inner_role.role_id
+                                    right join t_admin ta on admin_inner_role.admin_id = ta.id
+    where ta.login_acct=#{username} and t_auth.name is not null;
+  </select>
+
+  <select id="queryAssignRoleByUsername" resultMap="RoleResultMap">
+    select t_role.* from t_role
+      right join admin_inner_role air on t_role.id = air.role_id
+      right join t_admin ta on air.admin_id = ta.id
+      where ta.login_acct=#{username} and air.role_id is not null
+  </select>
 </mapper>

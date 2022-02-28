@@ -2,11 +2,13 @@ package com.crowd.mvc.config;
 
 import com.crowd.constant.CrowdConstant;
 import com.crowd.exception.*;
+import com.crowd.mvc.annotaion.RootIgnore;
 import com.crowd.utils.CrowdUtils;
 import com.crowd.utils.ResponseEntity;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,6 +22,7 @@ import java.io.PrintWriter;
 * 异常处理器
 * */
 @ControllerAdvice
+@RootIgnore
 public class CrowdExceptionResolver {
     private Logger logger= LoggerFactory.getLogger(this.getClass());
 
@@ -94,6 +97,14 @@ public class CrowdExceptionResolver {
                                                  HttpServletRequest request,
                                                  HttpServletResponse response) throws IOException {
         return this.resolveCommonException(e,request,response,CrowdConstant.ADMIN_EDIT_VIEW);
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public ModelAndView handelAccessDeniedException(Exception e,
+                                                    HttpServletRequest request,
+                                                    HttpServletResponse response) throws IOException {
+
+         return this.resolveCommonException(e,request,response,CrowdConstant.ADMIN_DENIED_VIEW);
     }
 
 
