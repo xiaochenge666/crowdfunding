@@ -1,6 +1,5 @@
 package com.crowd.mvc.config;
 
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
@@ -44,9 +43,11 @@ public class WebInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
         //支持restful风格
         HiddenHttpMethodFilter hiddenHttpMethodFilter = new HiddenHttpMethodFilter();
+
         //SpringSecurity的代理过滤器
         DelegatingFilterProxy delegatingFilterProxy = new DelegatingFilterProxy();
         delegatingFilterProxy.setTargetBeanName("springSecurityFilterChain");
+
         return new Filter[]{characterEncodingFilter,hiddenHttpMethodFilter,delegatingFilterProxy};
 
     }
