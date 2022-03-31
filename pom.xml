@@ -19,7 +19,7 @@
 
     <properties>
         <!-- 声明属性， 对 Spring 的版本进行统一管理 -->
-        <xiaochenge666.spring.version>5.2.9.RELEASE</xiaochenge666.spring.version>
+        <xiaochenge666.spring.version>5.3.18</xiaochenge666.spring.version>
         <!-- 声明属性， 对 SpringSecurity 的版本进行统一管理 -->
         <xiaochenge666.spring.security.version>4.2.10.RELEASE</xiaochenge666.spring.security.version>
     </properties>
